@@ -1,0 +1,13 @@
+html { width: 100%; margin: 0px; padding: 0px; }
+body {
+    background-color: #1E1F28;
+    color: #F5F5F5;
+    font-family: sans-serif;
+}
+
+audio::-webkit-media-controls-panel, audio::-webkit-media-controls-timeline-container
+{
+    background: -webkit-linear-gradient(50deg, #ff62c3, #3d70fc);
+    
+    -webkit-text-fill-color: transparent;
+}

@@ -1,0 +1,57 @@
+<div class="ui column centered grid" *ngIf="{ 
+    status: status$ | async, 
+    currentTime: currentTime$ | async,
+    currentPlayingSong: currentPlayingSong$ | async
+ } as data">
+    <div class="main-title">Songs</div>
+    <div class="songs">
+        <div class="song" *ngFor="let song of songs$ | async">
+            
+            <img class="ui avatar image" [src]="song.avatar" [routerLink]="[song.id]">
+            <!-- <img class="image" src="assets/songs/thumbs/Untitled.png"> -->
+            <div class="content" [routerLink]="[song.id]">
+                <div class="title">
+                    {{ song.title }}
+                </div>
+                <div class="artist">
+                    {{ song.artist }}
+                </div>
+                <div class="duration">
+                    <ng-container *ngIf="song.id === data.currentPlayingSong?.id">
+                        <span *ngIf="data.status === 'stopped'">{{ song.duration }}</span>
+                        <span *ngIf="data.status === 'playing' || data.status === 'paused'">{{ data.currentTime | time }} / {{ song.duration }}</span>
+                    </ng-container>
+                    <ng-container *ngIf="song.id !== data.currentPlayingSong?.id">
+                        {{ song.duration }}
+                    </ng-container>                    
+                </div>
+            </div>
+            <div class="buttons">
+                <ng-container *ngIf="song.id === data.currentPlayingSong?.id">
+                    <div class="controls">
+                        <div (click)="onPlay(song)" *ngIf="data.status === 'paused' || data.status === 'stopped'"
+                            class="ui button">
+                            <img class="icon" src="assets/play.png">
+                        </div>
+                        <div (click)="onPause(song)" *ngIf="data.status === 'playing'" class="ui button">
+                            <img class="icon" src="assets/pause.png">
+                        </div>
+                        <div (click)="onStop(song)" *ngIf="data.status === 'playing'" class="ui button">
+                            <img class="icon" src="assets/stop.png">
+                        </div>
+                    </div>
+                    <!-- <div class="current-time">
+                        {{ data.currentTime | time }} / {{ song.duration }}
+                    </div> -->
+                </ng-container>
+                <ng-container *ngIf="song.id !== data.currentPlayingSong?.id">
+                    <div>
+                        <div (click)="onPlay(song)" class="ui button">
+                            <img class="icon" src="assets/play.png">
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
